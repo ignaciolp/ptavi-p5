@@ -12,19 +12,27 @@ Análisis de una sesión SIP
 Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wireshark2. Se pide rellenar las cuestiones que se plantean en este guión en el fichero p5.txt que encontrarás también en el repositorio.
 
 2. Observa que las tramas capturadas corresponden a una sesión SIP con Ekiga, un cliente de VoIP para GNOME. Responde a las siguientes cuestiones:
- ** ¿Cuántos paquetes componen la captura?
- ** ¿Cuánto tiempo dura la captura?
- ** ¿Qué IP tiene la máquina donde se ha efectuado la captura? ¿Se trata de una IP pública o de una IP privada? ¿Por qué lo sabes?
+ ** ¿Cuántos paquetes componen la captura? 
+    -954
+ ** ¿Cuánto tiempo dura la captura? 
+    -56.149345
+ ** ¿Qué IP tiene la máquina donde se ha efectuado la captura? ¿Se trata de una IP pública o de una IP privada? ¿Por qué lo sabes? 
+    -la maquina donde hemos efectuado la captura es 192.168.1.34 ya que es la maquina que esta durante toda la retransmision (statistics endpoints ipv4), sino tendriamos variedad de maquinas y no
+    podriamos saber donde se hizo la captura.Sabemos que es una ip privada comprobando nuestra ip  con ifconfig en el terminal o ekiga.net/ip/, nos da nuestra ip publica al ver que no
+    coinciden sabemos que estamos detras de un nat.
 
 
 3. Antes de analizar las tramas, mira las estadísticas generales que aparecen en el menú de Statistics. En el apartado de jerarquía de protocolos (Protocol Hierarchy) se puede ver el porcentaje del tráfico correspondiente al protocolo TCP y UDP.
- ** ¿Cuál de los dos es mayor? ¿Es esto consistente con una aplicación que transmite en tiempo real?
+ ** ¿Cuál de los dos es mayor? ¿Es esto consistente con una aplicación que transmite en tiempo real? 
+    -UDP es el protocolo con mayor numero de paquetes, udp es el protocolo que se utiliza para transmitir voz o video y resulta mas importante transmitir con velocidad que garantizar el envio      de   todos los bits, pero tcp es lo contrario garantiza el maximo intercambio de bits pr lo que el tiempo de transmision real no es un parametro que importe ya que la entrega debe ser garantizada
  ** ¿Qué otros protocolos podemos ver en la jerarquía de protocolos?
+    -Dentro de Ethernet tenemos dos ARP e IPv4, éste a su vez tiene dentro 3 protocolos; TCP,UDP y ICMP. Dentro del protocolo TCP esta HTTP y dentro de UDP hay protocolos como; RTP, RTCP, DNS y SIP.
+
 
 
 4. Observa por encima el flujo de tramas en el menú de Statistics en IO Graphs. La captura que estamos viendo incluye desde la inicialización (registro) de la aplicación hasta su finalización, con una llamada entremedias.
- ** Filtra por sip para conocer cuándo se envían paquetes SIP. ¿En qué segundos tienen lugar esos envíos?
- ** Y los paquetes con RTP, ¿cuándo se envían?
+ ** Filtra por sip para conocer cuándo se envían paquetes SIP. ¿En qué segundos tienen lugar esos envíos? en 7, 14, 16, 38, 39 y 55 (statistics io graphs +)
+ ** Y los paquetes con RTP, ¿cuándo se envían? en 17, 18, 19, 20, 21, 23 hasta 38 todos incluidos
 
 
 

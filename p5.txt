@@ -81,24 +81,37 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
 9. Fijémonos en las tramas siguientes a la número 46:
  ** ¿Se registra con éxito en el primer intento?
+    -no
  ** ¿Cómo sabemos si el registro se ha realizado correctamente o no?
+    -Con la respuesta del servidor sip(mensaje 50),al no ser 200 ok y ser 401 unauthorized sabemos que el registro no se ha realizado correctamente
  ** ¿Podrías identificar las diferencias entre el primer intento y el segundo de registro? (fíjate en el tamaño de los paquetes y mira a qué se debe el cambio)
+    la diferencia entre el mensaje 46 y 50, esque el 50 pesa mas que el primero por que dentro del mensaje tenemos un nuevo campo (authorization), en el primero el cliente no se puede autentificar y le manda un nonve value, el cliente tiene que mandar la respuesta habiendo aplicado al nonce su contraseña
  ** ¿Cuánto es el valor del tiempo de expiración de la sesión? Indica las unidades.
+    -mensaje 54, 3600
 
 
 10. Una vez registrados, podemos efectuar una llamada. Vamos a probar con el servicio de eco de Ekiga que nos permite comprobar si nos hemos conectado correctamente. El servicio de eco tiene la dirección sip:500@ekiga.net. Veamos el INVITE de cerca.
  ** ¿Puede verse el nombre del que efectúa la llamada, así como su dirección SIP?
- ** ¿Qué es lo que contiene el cuerpo de la trama? ¿En qué formato/protocolo está?
+    (mensaje 84 info: INVITE) si en el campo from
+ ** ¿Qué es lo que contiene el cuerpo de la trama? ¿En qué formato/protocolo está? protocolo sdp, dentro del message body, session description protocol  vemos el contenido de la llamada
+    
  ** ¿Tiene éxito el primer intento? ¿Cómo lo sabes?
+    -no ,mensaje 85, 407 proxy auhentication required, el servidor le pide al cliente la autentificacion del proxy
  ** ¿En qué se diferencia el segundo INVITE más abajo del primero? ¿A qué crees que se debe esto?
+    pesa mas uno que otro, ya que contiene el campo proxy-authorization, ya que el servidor no identifica al proxy que utiliza el cliente.
 
 
 11. Una vez conectado, estudia el intercambio de tramas.
  ** ¿Qué protocolo(s) se utiliza(n)? ¿Para qué sirven estos protocolos?
+    se utiliza RTP,RTCPy H.261,  RTP se utiliza para enviar mensajes de audio y video,H.261 es una UIT-T estándar de compresión de vídeo y RTCP control de flujo de datos de RTP
  ** ¿Cuál es el tamaño de paquete de los mismos?
+    214 bytes por paquete
  ** ¿Se utilizan bits de padding?
+    no, mensaje 111 en campo rtp el padding es false 
  ** ¿Cuál es la periodicidad de los paquetes que se envían?
+    -G.711 manda 8000 muestras por segundo, en los mensajes de rtp como protocolo su campo de timestamp es de 160, por lo que manda 50 paquetes por segundo asique su periodo es de 0.02
  ** ¿Cuántos bits/segundo estamos enviando?
+    85 600
 
 
 
@@ -108,7 +121,9 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** ¿Cuántos flujos hay? ¿por qué?
  ** ¿Cuántos paquetes se pierden?
  ** ¿Cuál es el valor máximo del delta? ¿Y qué es lo que significa el valor de delta?
+    - 
  ** ¿Cuáles son los valores de jitter (medio y máximo)? ¿Qué quiere decir eso? ¿Estamos ante una conversación de calidad?
+    
 
 
 13. Elige un paquete RTP de audio. Analiza el flujo de audio en Telephony -> RTP -> Stream Analysis.

@@ -119,37 +119,52 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
 12. Vamos a ver más a fondo el intercambio RTP. En Telephony hay una opción RTP. Empecemos mirando los flujos RTP.
  ** ¿Cuántos flujos hay? ¿por qué?
+    dos uno de audio puerto 5010 y video puerto 5014 (telephony rtp stream)
  ** ¿Cuántos paquetes se pierden?
- ** ¿Cuál es el valor máximo del delta? ¿Y qué es lo que significa el valor de delta?
-    - 
- ** ¿Cuáles son los valores de jitter (medio y máximo)? ¿Qué quiere decir eso? ¿Estamos ante una conversación de calidad?
+    -ninguno
+ ** ¿Cuál es el valor máximo del delta? ¿Y qué es lo que significa el valor de delta? video:1290.479ms audio:1290.444ms
+    es la diferencia máxima  cuando comparamos el paquete recibido con el anterior
     
-
+ ** ¿Cuáles son los valores de jitter (medio y máximo)? ¿Qué quiere decir eso? ¿Estamos ante una conversación de calidad?
+    -video medio:153.240ms y max :183.096
+    -audio medio 42.500ms y max: 119.635
+ a la variabilidad temporal durante el envío, es una mala conexion, el jitter medio ronda de 1-8ms al tener el jitter alto necesitamos un buffer mayor, por lo que el jiter cuando se acerca a cero es lo mas recomendable.
 
 13. Elige un paquete RTP de audio. Analiza el flujo de audio en Telephony -> RTP -> Stream Analysis.
  ** ¿Cuánto valen el delta y el jitter para el primer paquete que ha llegado?
+     -0 en ambos casos
  ** ¿Podemos saber si éste es el primer paquete que nos han enviado?
+    -no podemos afirmar que es el primer paquete que nos han enviado pero si el primero que hemos recibido el menor numero de paquete 
  ** Los valores de jitter son menores de 10ms hasta un paquete dado. ¿Cuál?
+    -apartir del 247
  ** ¿A qué se debe el cambio tan brusco del jitter?
+     - a que la delta tambien se ha producido un cambio brusco
  ** ¿Es comparable este cambio con el tiempo desde la recepción del paquete anterior? ¿Por qué?
+    -si, el jitter es dependiente de la delta
  ** ¿Cuál es la dependencia entre el tiempo transcurrido desde el paquete anterior y el valor de jitter?
+    el jitter ha aumentado cuando la delta(el tiempo trancurrido desde el paquete anterior) ha aumentado
 
 
-14. En Telephony selecciona el menú VoIP calls. Verás que se lista la llamada de voz IP capturada en una ventana emergente. Selecciona esa llamada y pulsa el botón Graph.
+14. En Telephony selecciona el menú VoIP calls. Verás que se lista la llamada de voz IP capturada en una ventana emergente. Selecciona esa llamada y pulsa el botón Graph.(flow secuence)
  ** ¿Cuánto dura la conversación?
- ** ¿Cuáles son sus SSRC? ¿Por qué hay varios SSRCs? ¿Hay CSRCs?
+    -24.80289
+ ** ¿Cuáles son sus SSRC? ¿Por qué hay varios SSRCs? ¿Hay CSRCs?(play stream)
+    video(0x43306582),audio(0xbf4afd37), uno para video otro para audio no hay CSRCs
 
 
 15. Identifica la trama donde se finaliza la conversación.
- ** ¿Qué método SIP se utiliza?
- ** ¿En qué trama(s)?
- ** ¿Por qué crees que se envía varias veces?
+ ** ¿Qué método SIP se utiliza? BYE
+ ** ¿En qué trama(s)?924,925,927,933
+ ** ¿Por qué crees que se envía varias veces? envia varios mensajes hasta que recibe el primer ok, ahi finaliza el envio de bye
 
 
 16. Finalmente, se cierra la aplicación de VozIP.
  ** ¿Por qué aparece una instrucción SIP del tipo REGISTER?
+    para que borren al cliente
  ** ¿En qué trama sucede esto?
+    950
  ** ¿En qué se diferencia con la instrucción que se utilizó con anterioridad (al principio de la sesión)?
+    en el valor del expires, en este caso es cero
 
 
 

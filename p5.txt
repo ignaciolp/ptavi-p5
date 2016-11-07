@@ -179,16 +179,24 @@ Captura una sesión SIP de una conversación con el número SIP sip:9999@qxip.ne
 
 17. Observa las diferencias en el inicio de la conversación entre el entorno del laboratorio y el del ejercicio anterior:
  ** ¿Es necesario el uso de DNS y STUN? ¿Por qué?
+    -DNS si por que necesitamos saber la ip del servidor registrar de ekai.
+    -stun no hace falta ya que el lab tienen IPs publicas, pero en un ordenador personal si haria falta ya que estamos detras de un nat
  ** ¿Son diferentes el registro y la descripción de la sesión?
+    no, solo cambian las direcciones
 
 
 18. Identifica las diferencias existentes entre esta conversación y la conversación anterior:
  ** ¿Cuántos flujos tenemos?
+    dos flujos, los dos de audio
  ** ¿Cuál es su periodicidad?
+    es la misma 0.02
  ** ¿Cuánto es el valor máximo del delta y los valores medios y máximo del jitter?
+    212.128.254.172(max 323.370,jittermax 47.430 jittermean 36.988)
+    212.79.111.155(max 65.232, jittermax6.724,jitter mean 1.503)
  ** ¿Podrías reproducir la conversación desde Wireshark? ¿Cómo? Comprueba que poniendo un valor demasiado pequeño para el buffer de jitter, la conversación puede no tener la calidad necesaria.
+    si , Telephony/RTP/Show ALL Streams, (elegimos el flujo),Analyze/Player
  ** ¿Sabrías decir qué tipo de servicio ofrece sip:9999@qxip.net?
-
+    un servicio de musica
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
